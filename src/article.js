@@ -30,7 +30,7 @@ async function fetchArticleDetails() {
       <p>${article.contenu}</p>
     `;
   } catch (err) {
-    document.getElementById("article-container").textContent = "Erreur réseau.";
+    document.getElementById("article-container").textContent = "Error.";
   }
 }
 

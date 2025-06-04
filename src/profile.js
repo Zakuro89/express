@@ -14,7 +14,7 @@ async function getProfile() {
     welcomeMessage.textContent = `Bienvenue, ${data.user.email} !`;
     document.body.prepend(welcomeMessage);
   } else if (response.status === 401) {
-    console.error("Token manquant ou invalide.");
+    console.error("Missing token or invalid.");
     window.location.href = "/login.html";
   } else {
     console.error("Erreur inconnue.");

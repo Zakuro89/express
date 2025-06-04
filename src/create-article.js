@@ -34,9 +34,10 @@ form.addEventListener("submit", async (e) => {
       alert("Article créé avec succès !");
       window.location.href = "articles.html";
     } else {
-      errorSpan.textContent = data.message || "Erreur lors de la création.";
+      errorSpan.textContent =
+        data.message || "Erreur lors de la création de l'article.";
     }
   } catch (err) {
-    errorSpan.textContent = "Erreur réseau ou serveur.";
+    errorSpan.textContent = "Error.";
   }
 });
