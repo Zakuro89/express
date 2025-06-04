@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Créer un article</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>Créer un article</header>
+
+    <form class="form" id="article-form">
+      <label for="titre"> Titre </label>
+      <input type="text" id="titre" placeholder="Titre de l'article" required />
+      <label for="contenu">Résumé</label>
+      <textarea
+        id="contenu"
+        placeholder="Contenu de l'article"
+        required
+        rows="6"
+        style="width: 80%; border-radius: 5px; padding: 8px"
+      ></textarea>
+      <button type="submit">Publier</button>
+    </form>
+    <span id="error"></span>
+
+    <footer>🍪 Vive les articles et les cookies ! 🍪</footer>
+
+    <script src="create-article.js"></script>
+  </body>
+</html>

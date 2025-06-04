@@ -16,6 +16,10 @@ app.get("/login", (req, res) => {
   res.sendFile("login.html", { root: "src" });
 });
 
+app.get("/article", (req, res) => {
+  res.sendFile("article.html", { root: "src" });
+});
+
 app.get("/", (req, res) => {
   res.redirect("/login");
 });
@@ -98,4 +102,70 @@ app.get("/profile", (req, res) => {
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
+});
+
+// parties bibliothèque
+
+app.post("/articles", async (req, res) => {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    return res.status(401).json({ message: "Missing or Invalid Token" });
+  }
+
+  const token = authHeader.split(" ")[1];
+
+  try {
+    const user = jwt.verify(token, "jaimelescookies");
+
+    const { titre, contenu } = req.body;
+
+    if (!titre || !contenu) {
+      return res.status(400).json({ message: "Missing fields" });
+    }
+
+    const now = new Date();
+
+    await pool.query(
+      `INSERT INTO T_ARTICLE (titre, contenu, date_publication, auteur_id)
+       VALUES ($1, $2, $3, $4)`,
+      [titre, contenu, now, user.id]
+    );
+
+    res.status(201).json({ message: "Article créé" });
+  } catch (err) {
+    res.status(401).json({ message: "Invalid token" });
+  }
+});
+
+app.get("/articles", async (req, res) => {
+  const result = await pool.query(
+    `SELECT a.id, a.titre, a.date_publication, u.email AS auteur
+     FROM T_ARTICLE a
+     JOIN T_USER u ON a.auteur_id = u.id
+     ORDER BY a.date_publication DESC`
+  );
+  res.status(200).json(result.rows);
+});
+
+app.get("/articles/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const result = await pool.query(
+    `SELECT a.id, a.titre, a.contenu, a.date_publication, u.email AS auteur
+     FROM T_ARTICLE a
+     JOIN T_USER u ON a.auteur_id = u.id
+     WHERE a.id = $1`,
+    [id]
+  );
+
+  if (result.rowCount === 0) {
+    return res.status(404).json({ message: "Article not found" });
+  }
+
+  res.status(200).json(result.rows[0]);
+});
+
+app.get("/create-article", (req, res) => {
+  res.sendFile("create-article.html", { root: "src" });
 });
