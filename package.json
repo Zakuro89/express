@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "ng": "^0.0.0",
+    "nodemon": "^3.1.9",
+    "pg": "^8.14.1"
+  },
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon --legacy-watch index.js"
+  },
+  "name": "test-access",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
